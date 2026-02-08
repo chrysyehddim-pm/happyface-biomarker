@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 雷達圖與檢測用自訂樣式 */
+.radar-chart {
+  --chart-size: 200px;
+}

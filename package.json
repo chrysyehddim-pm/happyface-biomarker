@@ -1,0 +1,24 @@
+{
+  "name": "happyface-biomarker",
+  "version": "1.0.0",
+  "description": "臉部表情肌耐力與情緒反應檢測工具 - 神經退化疾病初步篩檢研究",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.14",
+    "firebase": "^10.14.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
+  }
+}
