@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HappyFace-Biomarker | 臉部表情肌耐力檢測</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>😊</text></svg>" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" crossorigin src="/happyface-biomarker/assets/main-B8aNeVn1.js"></script>
+    <link rel="stylesheet" crossorigin href="/happyface-biomarker/assets/main-BLErUzFV.css">
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased">
+    <div id="app" class="container mx-auto max-w-2xl px-4 py-8">
+      <!-- Header -->
+      <header class="mb-8 text-center">
+        <h1 class="text-2xl font-bold text-amber-800">HappyFace-Biomarker</h1>
+        <p class="mt-1 text-sm text-slate-500">臉部表情肌耐力與情緒反應檢測 — 神經退化疾病初步篩檢</p>
+      </header>
+
+      <!-- State: Setup -->
+      <section id="section-setup" class="rounded-xl bg-white p-6 shadow-sm border border-slate-200">
+        <h2 class="text-lg font-semibold text-slate-700 mb-4">受測者資訊</h2>
+        <div class="space-y-4">
+          <div>
+            <label for="input-name" class="block text-sm font-medium text-slate-600 mb-1">姓名 (Name)</label>
+            <input
+              id="input-name"
+              type="text"
+              placeholder="請輸入受測者姓名"
+              class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none"
+            />
+          </div>
+          <div>
+            <label for="input-age" class="block text-sm font-medium text-slate-600 mb-1">年齡 (Age)</label>
+            <input
+              id="input-age"
+              type="number"
+              min="1"
+              max="120"
+              placeholder="請輸入年齡"
+              class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none"
+            />
+          </div>
+          <button
+            id="btn-start"
+            class="w-full rounded-lg bg-amber-600 px-4 py-3 font-medium text-white hover:bg-amber-700 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            開始檢測
+          </button>
+        </div>
+      </section>
+
+      <!-- State: Camera & Task (Baseline, Smile, Frown) -->
+      <section id="section-task" class="hidden rounded-xl bg-white p-6 shadow-sm border border-slate-200">
+        <div class="aspect-video w-full overflow-hidden rounded-lg bg-slate-900 mb-4 relative">
+          <!-- 即時數據監控區（左上角） -->
+          <div id="debug-panel" class="absolute top-2 left-2 z-10 rounded bg-black/70 px-2 py-1.5 text-green-400 text-xs font-mono">
+            等候偵測...
+          </div>
+          <video id="video" class="w-full h-full object-cover" autoplay playsinline muted></video>
+          <canvas id="canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none"></canvas>
+        </div>
+        <div id="task-instruction" class="mb-4 rounded-lg bg-amber-50 px-4 py-3 text-amber-900 font-medium text-center">
+          <!-- 由 JS 填入提示文字 -->
+        </div>
+        <div id="task-timer" class="text-center text-2xl font-mono font-semibold text-slate-700 mb-2">
+          5
+        </div>
+        <div class="h-2 w-full rounded-full bg-slate-200 overflow-hidden">
+          <div id="progress-bar" class="h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </section>
+
+      <!-- State: Result & Upload -->
+      <section id="section-result" class="hidden rounded-xl bg-white p-6 shadow-sm border border-slate-200">
+        <h2 class="text-lg font-semibold text-slate-700 mb-4">分析結果</h2>
+        <div id="radar-container" class="flex justify-center mb-6 min-h-[280px] max-w-[320px] mx-auto">
+          <canvas id="radarChart"></canvas>
+        </div>
+        <div id="result-summary" class="rounded-lg p-4 mb-4 text-center font-medium">
+          <!-- 由 JS 填入 raw_data_summary -->
+        </div>
+        <div id="result-metrics" class="space-y-2 text-sm text-slate-600 mb-6">
+          <!-- 由 JS 填入 biomarkers 摘要 -->
+        </div>
+        <div id="upload-status" class="rounded-lg px-4 py-2 text-center text-sm">
+          <!-- 上傳狀態 -->
+        </div>
+        <button
+          id="btn-restart"
+          class="mt-4 w-full rounded-lg border border-slate-300 px-4 py-3 font-medium text-slate-700 hover:bg-slate-50 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+        >
+          重新檢測
+        </button>
+      </section>
+    </div>
+
+  </body>
+</html>
