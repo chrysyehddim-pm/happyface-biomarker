@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  base: '/happyface-biomarker/',
   root: '.',
   publicDir: 'public',
   build: {

@@ -541,6 +541,50 @@ function onRestart() {
   inputAge.value = '';
 }
 
+// ========== URL 參數自動帶入 ==========
+function initFromUrlParams() {
+  const params = new URLSearchParams(window.location.search);
+  const nameFromUrl = params.get('name')?.trim();
+  const ageFromUrl = params.get('age')?.trim();
+
+  let filledCount = 0;
+  if (nameFromUrl) {
+    inputName.value = nameFromUrl;
+    inputName.dispatchEvent(new Event('input'));
+    filledCount++;
+  }
+  if (ageFromUrl) {
+    const ageNum = parseInt(ageFromUrl, 10);
+    if (!isNaN(ageNum) && ageNum >= 1 && ageNum <= 120) {
+      inputAge.value = String(ageNum);
+      inputAge.dispatchEvent(new Event('input'));
+      filledCount++;
+    }
+  }
+
+  if (filledCount === 2) {
+    showToast(`嗨 ${nameFromUrl}，資料已自動帶入！`);
+    btnStart.focus();
+  }
+}
+
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.setAttribute('role', 'status');
+  toast.className =
+    'fixed bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-lg bg-amber-600 text-white text-sm font-medium shadow-lg z-50 animate-fade-in';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
 // ========== Init ==========
 btnStart.addEventListener('click', onStart);
 btnRestart.addEventListener('click', onRestart);
+
+// DOM 載入完成後執行 URL 參數帶入
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initFromUrlParams);
+} else {
+  initFromUrlParams();
+}
