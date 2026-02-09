@@ -543,28 +543,32 @@ function onRestart() {
 
 // ========== URL 參數自動帶入 ==========
 function initFromUrlParams() {
-  const params = new URLSearchParams(window.location.search);
-  const nameFromUrl = params.get('name')?.trim();
-  const ageFromUrl = params.get('age')?.trim();
+  const urlParams = new URLSearchParams(window.location.search);
+  const name = urlParams.get('name')?.trim();
+  const age = urlParams.get('age')?.trim();
+
+  const nameInput = document.getElementById('input-name');
+  const ageInput = document.getElementById('input-age');
 
   let filledCount = 0;
-  if (nameFromUrl) {
-    inputName.value = nameFromUrl;
-    inputName.dispatchEvent(new Event('input'));
+  if (name && nameInput) {
+    nameInput.value = name;
+    nameInput.dispatchEvent(new Event('input'));
     filledCount++;
   }
-  if (ageFromUrl) {
-    const ageNum = parseInt(ageFromUrl, 10);
+  if (age && ageInput) {
+    const ageNum = parseInt(age, 10);
     if (!isNaN(ageNum) && ageNum >= 1 && ageNum <= 120) {
-      inputAge.value = String(ageNum);
-      inputAge.dispatchEvent(new Event('input'));
+      ageInput.value = String(ageNum);
+      ageInput.dispatchEvent(new Event('input'));
       filledCount++;
     }
   }
 
   if (filledCount === 2) {
-    showToast(`嗨 ${nameFromUrl}，資料已自動帶入！`);
-    btnStart.focus();
+    showToast(`嗨 ${name}，資料已自動帶入！`);
+    const startBtn = document.getElementById('btn-start');
+    if (startBtn) startBtn.focus();
   }
 }
 
